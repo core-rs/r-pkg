@@ -4,8 +4,8 @@ pub fn run() {
     let aur = Aur {};
     let pacman = Pacman {};
 
-    core::download_package(&aur);
-    core::download_package(&pacman);
+    println!("{}", core::download_package(&aur, "pacman"));
+    core::search_package(&pacman, "pacman");
 }
 
 fn main() {
