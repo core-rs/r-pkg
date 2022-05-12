@@ -1,11 +1,17 @@
-use pkg::{aur::Aur, core, pacman::Pacman};
+use pkg::{aur::Aur, core};
 
-pub fn run() {
-    let aur = Aur {};
-    let pacman = Pacman {};
+fn run() {
+    let packages: Vec<String> = vec![
+        "datagrip".to_string(),
+        "remote-desktop-manager".to_string(),
+        "expressvpn".to_string(),
+        "aws-cdk".to_string(),
+    ];
+    let aur = Aur {
+        packages
+    };
 
     core::download_package(&aur);
-    core::download_package(&pacman);
 }
 
 fn main() {
