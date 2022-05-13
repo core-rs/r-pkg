@@ -7,9 +7,9 @@ fn run() {
         "expressvpn".to_string(),
         "aws-cdk".to_string(),
     ];
-    let aur = Aur {
-        packages
-    };
+    let aur = Aur { packages };
+
+    core::init();
 
     core::download_package(&aur);
 }

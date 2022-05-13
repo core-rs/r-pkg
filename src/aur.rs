@@ -1,4 +1,4 @@
-use super::core::Repository;
+use super::core::{Repository, clone_package};
 use std::thread;
 
 pub struct Aur {
@@ -17,7 +17,7 @@ impl Repository for Aur {
             let handle = thread::spawn(move || {
                 println!("Downloading {}...", package);
 
-                thread::sleep(std::time::Duration::from_millis(1000));
+                clone_package(&package);
 
                 println!("{} downloaded!", package);
 

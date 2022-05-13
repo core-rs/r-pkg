@@ -9,3 +9,4 @@ name = "pkg"
 path = "src/lib.rs"
 
 [dependencies]
+git2 = "0.13"
