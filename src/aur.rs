@@ -1,5 +1,6 @@
 use super::core::{clone_package, Repository};
-use crate::core::tmp_path;
+use crate::core::{search_package_aur, tmp_path, Package};
+use ansi_term::Style;
 use std::process::{Command, Stdio};
 use std::thread;
 
@@ -8,6 +9,24 @@ pub struct Aur {
 }
 
 impl Repository for Aur {
+    fn search(&self) {
+        let packages: Vec<String> = self.packages.clone();
+
+        let mut results: Vec<Package> = Vec::new();
+
+        for package in packages {
+            results.append(&mut search_package_aur(&package));
+        }
+
+        for result in results {
+            println!(
+                "{} - {}",
+                Style::new().bold().paint(result.Name),
+                Style::new().bold().paint(result.Version),
+            );
+        }
+    }
+
     fn download(&self) {
         let packages: Vec<String> = self.packages.clone();
         println!("Downloading packages from AUR...");
@@ -68,7 +87,7 @@ impl Repository for Aur {
                 .stderr(Stdio::inherit());
 
             match makepkg_cmd.output() {
-                Ok(_) => println!("Removed {} from tmp succesfully", package),
+                Ok(_) => (),
                 Err(e) => println!("There was an error {:?}", e),
             }
         }

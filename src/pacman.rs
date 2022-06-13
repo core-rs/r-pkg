@@ -13,4 +13,8 @@ impl Repository for Pacman {
     fn delete_from_tmp(&self) {
         println!("deleting from pacman");
     }
+
+    fn search(&self) {
+        println!("searching from pacman");
+    }
 }
