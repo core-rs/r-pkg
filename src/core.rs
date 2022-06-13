@@ -7,6 +7,7 @@ const AUR_URL: &str = "https://aur.archlinux.org/";
 
 pub trait Repository {
     fn download(&self);
+    fn install(&self);
 }
 
 pub fn download_package(repository: &impl Repository) {
@@ -41,7 +42,7 @@ pub fn init() {
 
 pub fn clone_package(package: &str) {
     let repo_url: String = format!("{}/{}.git", AUR_URL, package);
-    let package_dir = format!("{}/{}", tmp_path(), package);
+    let package_dir: String = format!("{}/{}", tmp_path(), package);
     match GitRepository::clone(repo_url.as_str(), &package_dir) {
         Ok(_) => println!("Cloned {}", package_dir),
         Err(_) => {
@@ -49,4 +50,8 @@ pub fn clone_package(package: &str) {
             std::process::exit(1);
         }
     }
+}
+
+pub fn install_packages(repository: &impl Repository) {
+    repository.install();
 }

@@ -1,4 +1,6 @@
-use super::core::{Repository, clone_package};
+use super::core::{clone_package, Repository};
+use crate::core::tmp_path;
+use std::process::{Command, Stdio};
 use std::thread;
 
 pub struct Aur {
@@ -7,7 +9,7 @@ pub struct Aur {
 
 impl Repository for Aur {
     fn download(&self) {
-        let packages = self.packages.clone();
+        let packages: Vec<String> = self.packages.clone();
         println!("Downloading packages from AUR...");
         println!("{:?}", &packages);
 
@@ -20,16 +22,35 @@ impl Repository for Aur {
                 clone_package(&package);
 
                 println!("{} downloaded!", package);
-
-                thread::sleep(std::time::Duration::from_millis(5000));
-
-                println!("{} installed!", package);
             });
 
             handles.push(handle);
         }
+
         for handle in handles {
             handle.join().unwrap();
+        }
+    }
+
+    fn install(&self) {
+        let packages: Vec<String> = self.packages.clone();
+
+        println!("Installing packages from AUR...");
+
+        for package in packages {
+            let mut makepkg_cmd = Command::new("makepkg");
+            let package_dir = format!("{}/{}", tmp_path(), package);
+            makepkg_cmd.current_dir(package_dir);
+            makepkg_cmd
+                .arg("-sir")
+                .stdin(Stdio::inherit())
+                .stdout(Stdio::inherit())
+                .stderr(Stdio::inherit());
+
+            match makepkg_cmd.output() {
+                Ok(_) => println!("Installed {} succesfully", package),
+                Err(e) => println!("There was an error {:?}", e),
+            }
         }
     }
 }

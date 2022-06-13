@@ -2,16 +2,16 @@ use pkg::{aur::Aur, core};
 
 fn run() {
     let packages: Vec<String> = vec![
-        "datagrip".to_string(),
-        "remote-desktop-manager".to_string(),
-        "expressvpn".to_string(),
-        "aws-cdk".to_string(),
+        "slack-desktop".to_string(),
+        "visual-studio-code-insiders-bin".to_string(),
     ];
     let aur = Aur { packages };
 
     core::init();
 
     core::download_package(&aur);
+
+    core::install_packages(&aur);
 }
 
 fn main() {
