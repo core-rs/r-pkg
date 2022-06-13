@@ -18,11 +18,22 @@ impl Repository for Aur {
             results.append(&mut search_package_aur(&package));
         }
 
+        if results.is_empty() {
+            println!("No packages found.");
+        }
+
+        results.sort_by(|a, b| a.PackageBase.cmp(&b.PackageBase));
+
         for result in results {
+            let maintainer = match result.Maintainer {
+                Some(maintainer) => maintainer,
+                None => "Unknown".to_string(),
+            };
             println!(
-                "{} - {}",
+                "pkg: {} - v: {}\nmaintainer: {}",
                 Style::new().bold().paint(result.Name),
                 Style::new().bold().paint(result.Version),
+                Style::new().bold().paint(maintainer),
             );
         }
     }
