@@ -53,4 +53,24 @@ impl Repository for Aur {
             }
         }
     }
+
+    fn delete_from_tmp(&self) {
+        let packages: Vec<String> = self.packages.clone();
+
+        for package in packages {
+            let mut makepkg_cmd = Command::new("rm");
+            makepkg_cmd.current_dir(tmp_path());
+            makepkg_cmd
+                .arg("-rf")
+                .arg(&package)
+                .stdin(Stdio::inherit())
+                .stdout(Stdio::inherit())
+                .stderr(Stdio::inherit());
+
+            match makepkg_cmd.output() {
+                Ok(_) => println!("Removed {} from tmp succesfully", package),
+                Err(e) => println!("There was an error {:?}", e),
+            }
+        }
+    }
 }

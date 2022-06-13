@@ -9,4 +9,8 @@ impl Repository for Pacman {
     fn install(&self) {
         println!("installing from pacman");
     }
+
+    fn delete_from_tmp(&self) {
+        println!("deleting from pacman");
+    }
 }

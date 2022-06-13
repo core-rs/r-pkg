@@ -8,6 +8,7 @@ const AUR_URL: &str = "https://aur.archlinux.org/";
 pub trait Repository {
     fn download(&self);
     fn install(&self);
+    fn delete_from_tmp(&self);
 }
 
 pub fn download_package(repository: &impl Repository) {
@@ -54,4 +55,8 @@ pub fn clone_package(package: &str) {
 
 pub fn install_packages(repository: &impl Repository) {
     repository.install();
+}
+
+pub fn delete_from_tmp_packages(repository: &impl Repository) {
+    repository.delete_from_tmp();
 }

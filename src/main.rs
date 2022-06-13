@@ -12,6 +12,8 @@ fn run() {
     core::download_package(&aur);
 
     core::install_packages(&aur);
+
+    core::delete_from_tmp_packages(&aur);
 }
 
 fn main() {
