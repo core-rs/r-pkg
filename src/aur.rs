@@ -29,7 +29,7 @@ impl Repository for Aur {
                 None => "Unknown".to_string(),
             };
             println!(
-                "pkg: {} - v: {}\nmaintainer: {}",
+                "pkg: {} - ver: {}\nmaintainer: {}",
                 Style::new().bold().paint(result.Name),
                 Style::new().bold().paint(result.Version),
                 Style::new().bold().paint(maintainer),
