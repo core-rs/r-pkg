@@ -1,5 +1,4 @@
-use super::core::{clone_package, Repository};
-use crate::core::{search_package_aur, tmp_path, Package};
+use crate::core::{clone_package, search_package_aur, tmp_path, Package, Repository};
 use ansi_term::Style;
 use std::process::{Command, Stdio};
 use std::thread;
@@ -41,7 +40,6 @@ impl Repository for Aur {
     fn download(&self) {
         let packages: Vec<String> = self.packages.clone();
         println!("Downloading packages from AUR...");
-        println!("{:?}", &packages);
 
         let mut handles = vec![];
 

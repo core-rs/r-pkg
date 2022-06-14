@@ -1,4 +1,4 @@
-use super::core::Repository;
+use crate::core::Repository;
 
 pub struct Pacman;
 impl Repository for Pacman {

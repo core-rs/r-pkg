@@ -98,7 +98,7 @@ pub fn clone_package(package: &str) {
     let repo_url: String = format!("{}/{}.git", AUR_URL, package);
     let package_dir: String = format!("{}/{}", tmp_path(), package);
     match GitRepository::clone(repo_url.as_str(), &package_dir) {
-        Ok(_) => println!("Cloned {}", package_dir),
+        Ok(_) => (),
         Err(_) => {
             println!("Failed to clone {}", package_dir);
             std::process::exit(1);
