@@ -6,7 +6,7 @@ use std::path::Path;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Package {
-    pub Description: String,
+    pub Description: Option<String>,
     pub FirstSubmitted: i64,
     pub ID: i64,
     pub LastModified: i64,
