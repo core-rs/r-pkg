@@ -111,8 +111,6 @@ fn main() {
                     search(values.split(", ").map(|s| s.to_string()).collect());
                 } else {
                     sync(values.split(", ").map(|s| s.to_string()).collect());
-
-                    println!("Installing {}...", values);
                 }
             }
         }

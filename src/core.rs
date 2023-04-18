@@ -1,8 +1,8 @@
 #![allow(non_snake_case)]
-use git2::Repository as GitRepository;
 use serde::{Deserialize, Serialize};
 use std::fs::create_dir_all;
 use std::path::Path;
+use std::process::{Command, Stdio};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Package {
@@ -97,13 +97,18 @@ pub fn search_package_aur(package: &str) -> Vec<Package> {
 pub fn clone_package(package: &str) {
     let repo_url: String = format!("{}/{}.git", AUR_URL, package);
     let package_dir: String = format!("{}/{}", tmp_path(), package);
-    match GitRepository::clone(repo_url.as_str(), &package_dir) {
-        Ok(_) => (),
-        Err(_) => {
-            println!("Failed to clone {}", package_dir);
-            std::process::exit(1);
-        }
-    }
+    Command::new("git")
+        .stdin(Stdio::null())
+        .stdout(Stdio::inherit())
+        .arg("clone")
+        .arg("-q")
+        .arg("--depth=1")
+        .arg(repo_url.as_str())
+        .arg(&package_dir)
+        .spawn()
+        .expect("Failed to clone package");
+
+    println!("Cloning {}...", package);
 }
 
 pub fn install_packages(repository: &impl Repository) {

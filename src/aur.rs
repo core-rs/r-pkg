@@ -63,8 +63,6 @@ impl Repository for Aur {
     fn install(&self) {
         let packages: Vec<String> = self.packages.clone();
 
-        println!("Installing packages from AUR...");
-
         for package in packages {
             let mut makepkg_cmd = Command::new("makepkg");
             let package_dir = format!("{}/{}", tmp_path(), package);
@@ -87,7 +85,6 @@ impl Repository for Aur {
 
         for package in packages {
             let mut makepkg_cmd = Command::new("rm");
-            makepkg_cmd.current_dir(tmp_path());
             makepkg_cmd
                 .arg("-rf")
                 .arg(&package)
