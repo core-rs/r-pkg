@@ -24,7 +24,7 @@ fn search(packages: Vec<String>) {
 fn main() {
     let matches = Command::new("pkg")
         .about("package manager utility")
-        .version("1.0.0")
+        .version("1.2.0")
         .subcommand_required(true)
         .arg_required_else_help(true)
         .author("PKG Development Team")

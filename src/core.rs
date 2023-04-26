@@ -97,18 +97,23 @@ pub fn search_package_aur(package: &str) -> Vec<Package> {
 pub fn clone_package(package: &str) {
     let repo_url: String = format!("{}/{}.git", AUR_URL, package);
     let package_dir: String = format!("{}/{}", tmp_path(), package);
-    Command::new("git")
+    let mut clone_cmd = Command::new("git");
+    let status = clone_cmd
         .stdin(Stdio::null())
         .stdout(Stdio::inherit())
         .arg("clone")
         .arg("-q")
         .arg("--depth=1")
         .arg(repo_url.as_str())
-        .arg(&package_dir)
-        .spawn()
-        .expect("Failed to clone package");
+        .arg(package_dir)
+        .status()
+        .expect("Failed to execute git clone");
 
-    println!("Cloning {}...", package);
+    match status.code() {
+        Some(0) => println!("{} cloned!", package),
+        Some(_) => println!("Failed to clone {}", package),
+        None => println!("Failed to clone {}", package),
+    }
 }
 
 pub fn install_packages(repository: &impl Repository) {
